@@ -163,13 +163,25 @@ window.onload = function() {
 
 // CLICK LISTENERS
 const userClick = () => {
-  if (store.getState().songsById[store.getState().currentSongId].arrayPosition === store.getState().songsById[store.getState().currentSongId].songArray.length - 1) {
+  if (displayingLastLyric()) {
     store.dispatch({ type: 'RESTART_SONG',
                      currentSongId: store.getState().currentSongId });
   } else {
     store.dispatch({ type: 'NEXT_LYRIC',
                      currentSongId: store.getState().currentSongId });
   }
+}
+
+const displayingLastLyric = () => {
+  return currentLyric() === lastLyric();
+}
+
+const currentLyric = () => {
+  return store.getState().songsById[store.getState().currentSongId].arrayPosition;
+}
+
+const lastLyric = () => {
+  return store.getState().songsById[store.getState().currentSongId].songArray.length - 1;
 }
 
 const selectSong = (newSongId) => {
