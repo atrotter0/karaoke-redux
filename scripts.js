@@ -128,7 +128,7 @@ const renderLyrics = () => {
   }
 
   if (store.getState().currentSongId) {
-    const currentLine = document.createTextNode(store.getState().songsById[store.getState().currentSongId].songArray[store.getState().songsById[store.getState().currentSongId].arrayPosition]);
+    const currentLine = document.createTextNode(getCurrentLyric());
     document.getElementById('lyrics').appendChild(currentLine);
   } else {
     const selectSongMessage = document.createTextNode("Select a song from the menu above to sing along!");
@@ -136,10 +136,18 @@ const renderLyrics = () => {
   }
 }
 
+const getCurrentLyric = () => {
+  return getSongFromState().songArray[getSongFromState().arrayPosition];
+}
+
+const getSongFromState = () => {
+  return store.getState().songsById[store.getState().currentSongId];
+}
+
 const renderSongs = () => {
   const songsById = store.getState().songsById;
   for (const songKey in songsById) {
-    const song = songsById[songKey]
+    const song = songsById[songKey];
     const li = document.createElement('li');
     const h3 = document.createElement('h3');
     const em = document.createElement('em');
@@ -177,11 +185,11 @@ const displayingLastLyric = () => {
 }
 
 const currentLyric = () => {
-  return store.getState().songsById[store.getState().currentSongId].arrayPosition;
+  return getSongFromState().arrayPosition;
 }
 
 const lastLyric = () => {
-  return store.getState().songsById[store.getState().currentSongId].songArray.length - 1;
+  return getSongFromState().songArray.length - 1;
 }
 
 const selectSong = (newSongId) => {
