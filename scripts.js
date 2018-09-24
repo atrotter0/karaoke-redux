@@ -127,6 +127,10 @@ const renderLyrics = () => {
     lyricsDisplay.removeChild(lyricsDisplay.firstChild);
   }
 
+  updateLyricsSection();
+}
+
+const updateLyricsSection = () => {
   if (currentSong()) {
     const currentLine = document.createTextNode(getCurrentLyric());
     appendToLyrics(currentLine);
@@ -202,10 +206,10 @@ const lastLyric = () => {
 
 const selectSong = (newSongId) => {
   let action;
-  if (store.getState().currentSongId) {
+  if (currentSong()) {
     action = {
       type: 'RESTART_SONG',
-      currentSongId: store.getState().currentSongId
+      currentSongId: currentSong()
     }
     store.dispatch(action);
   }
