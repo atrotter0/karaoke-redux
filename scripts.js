@@ -127,13 +127,21 @@ const renderLyrics = () => {
     lyricsDisplay.removeChild(lyricsDisplay.firstChild);
   }
 
-  if (store.getState().currentSongId) {
+  if (currentSong()) {
     const currentLine = document.createTextNode(getCurrentLyric());
-    document.getElementById('lyrics').appendChild(currentLine);
+    appendToLyrics(currentLine);
   } else {
-    const selectSongMessage = document.createTextNode("Select a song from the menu above to sing along!");
-    document.getElementById('lyrics').appendChild(selectSongMessage);
+    const selectSongMessage = document.createTextNode("Click a song from the menu above to sing along!");
+    appendToLyrics(selectSongMessage);
   }
+}
+
+const currentSong = () => {
+  return store.getState().currentSongId;
+}
+
+const appendToLyrics = (text) => {
+  return document.getElementById('lyrics').appendChild(text);
 }
 
 const getCurrentLyric = () => {
@@ -141,7 +149,7 @@ const getCurrentLyric = () => {
 }
 
 const getSongFromState = () => {
-  return store.getState().songsById[store.getState().currentSongId];
+  return store.getState().songsById[currentSong()];
 }
 
 const renderSongs = () => {
@@ -173,10 +181,10 @@ window.onload = function() {
 const userClick = () => {
   if (displayingLastLyric()) {
     store.dispatch({ type: 'RESTART_SONG',
-                     currentSongId: store.getState().currentSongId });
+                     currentSongId: currentSong() });
   } else {
     store.dispatch({ type: 'NEXT_LYRIC',
-                     currentSongId: store.getState().currentSongId });
+                     currentSongId: currentSong() });
   }
 }
 
